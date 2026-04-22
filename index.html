@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>대항해시대2 - SNES</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; background: #0a0a0a; color: #eee; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    #game { width: 100vw; height: 100vh; }
+    #intro { display: flex; align-items: center; justify-content: center; height: 100%; flex-direction: column; gap: 1rem; padding: 2rem; text-align: center; }
+    #intro h1 { margin: 0; font-size: 1.5rem; }
+    #intro p { margin: 0; color: #aaa; max-width: 40rem; line-height: 1.6; }
+    #intro code { background: #222; padding: 0.2em 0.4em; border-radius: 4px; }
+    #intro button { padding: 0.75rem 1.5rem; font-size: 1rem; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer; }
+    #intro button:hover { background: #2563eb; }
+  </style>
+</head>
+<body>
+  <div id="game">
+    <div id="intro">
+      <h1>대항해시대2 (SNES) 웹 에뮬레이터</h1>
+      <p>
+        로컬에 <code>game.sfc</code> 파일을 배치하면 자동으로 실행됩니다.<br>
+        파일이 없을 경우 아래 버튼으로 직접 업로드할 수 있습니다.
+      </p>
+      <input type="file" id="rom-input" accept=".sfc,.smc" style="display:none">
+      <button onclick="document.getElementById('rom-input').click()">ROM 업로드</button>
+      <p style="font-size: 0.85rem; color: #666;">
+        ※ 본인이 정식 보유한 ROM만 사용하세요.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function boot(gameUrl) {
+      document.getElementById("game").innerHTML = "";
+      window.EJS_player = "#game";
+      window.EJS_core = "snes";
+      window.EJS_gameUrl = gameUrl;
+      window.EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
+      window.EJS_startOnLoaded = true;
+      const script = document.createElement("script");
+      script.src = "https://cdn.emulatorjs.org/stable/data/loader.js";
+      document.body.appendChild(script);
+    }
+
+    document.getElementById("rom-input").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) boot(URL.createObjectURL(file));
+    });
+
+    fetch("game.sfc", { method: "HEAD" })
+      .then((res) => { if (res.ok) boot("game.sfc"); })
+      .catch(() => {});
+  </script>
+</body>
+</html>
