@@ -1,0 +1,26 @@
+# ROM files (copyright - never commit)
+*.sfc
+*.smc
+*.fig
+*.swc
+*.zip
+*.7z
+roms/
+
+# Save states
+*.srm
+*.state
+*.state.auto
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Node (for any tooling)
+node_modules/
+package-lock.json
